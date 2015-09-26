@@ -78,7 +78,7 @@ const (
 	globalVariablesTableAddressOffset = 0x0c
 	staticMemoryBaseOffset            = 0x0e
 	abbreviationsTableAddressOffset   = 0x18
-	fileLengthOffset                  = 0x1a
+	fileSizeOffset                    = 0x1a
 	checksumOffset                    = 0x1c
 	routineOffset                     = 0x28
 	stringsOffset                     = 0x2a
@@ -129,6 +129,27 @@ func (m *Memory) GlobalVariablesTableAddress() ByteAddress {
 func (m *Memory) AbbreviationsTableAddress() ByteAddress {
 	w := m.readWord(abbreviationsTableAddressOffset)
 	return ByteAddress(w)
+}
+
+// FileSize returns the length of the file.
+func (m *Memory) FileSize() uint {
+	w := m.readWord(fileSizeOffset)
+
+	switch m.Version() {
+	case 1, 2, 3:
+		return uint(w) * 2
+	case 4, 5:
+		return uint(w) * 4
+	case 6, 7, 8:
+		return uint(w) * 8
+	default:
+		panic("Invalid Z-Machine version")
+	}
+}
+
+// Checksum returns the checksum value.
+func (m *Memory) Checksum() uint16 {
+	return m.readWord(checksumOffset)
 }
 
 // RoutinesOffset returns the offset (divided by 8) used to unpack routine addresses.
