@@ -55,4 +55,20 @@ func TestHeader_Zork1(t *testing.T) {
 	Convey("Zork 1: initial program counter should be 0x4f05", t, func() {
 		So(memory.InitialProgramCounter(), ShouldEqual, 0x4f05)
 	})
+
+	Convey("Zork 1: dictionary address should be 0x3b21", t, func() {
+		So(memory.DictionaryAddress(), ShouldEqual, 0x3b21)
+	})
+
+	Convey("Zork 1: object table address should be 0x02b0", t, func() {
+		So(memory.ObjectTableAddress(), ShouldEqual, 0x02b0)
+	})
+
+	Convey("Zork 1: global variables table address should be 0x2271", t, func() {
+		So(memory.GlobalVariablesTableAddress(), ShouldEqual, 0x2271)
+	})
+
+	Convey("Zork 1: abbreviations table address should be 0x01f0", t, func() {
+		So(memory.AbbreviationsTableAddress(), ShouldEqual, 0x01f0)
+	})
 }
